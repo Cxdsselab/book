@@ -4,11 +4,17 @@ server:
     tomcat:
         uri-encoding: UTF-8        
 spring:
+    application:
+      name: book
+    cloud:
+      config:
+        enabled: false
     datasource:
         driver-class-name: com.mysql.cj.jdbc.Driver
         url: jdbc:mysql://114.215.202.202:3306/springboot_mybatis?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8&useSSL=false
         username: root
-        password: root           
+        password: root
+
 logging:
     level:
         root: WARN
@@ -18,3 +24,11 @@ logging:
 mybatis:
     type-aliases-package: com.sselab.springboot.book.model
     mapper-locations: classpath:com.sselab.springboot.book.mapper/*Mapper.xml
+
+eureka:
+  instance:
+    nonSecurePort: ${server.port:8081}
+    instanceId: ${spring.cloud.client.hostname}:${spring.application.name}:${spring.application.instance_id:${random.value}}
+  client:
+    serviceUrl:
+      defaultZone: http://${eureka.host:114.215.202.202}:${eureka.port:8761}/eureka/
